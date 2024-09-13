@@ -11,12 +11,11 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the app code.
 COPY . .
 
-# Expose port 8080.
+# Expose the port (optional, but good practice).
 EXPOSE 8080
 
-# Set environment variables.
-ENV FLASK_RUN_HOST=0.0.0.0
-ENV FLASK_RUN_PORT=8080
+# Set environment variables (DigitalOcean provides $PORT).
+ENV PORT=8080
 
-# Run the application.
-CMD ["flask", "run"]
+# Run the application using Gunicorn.
+CMD ["gunicorn", "--bind", "0.0.0.0:$PORT", "app:app"]
