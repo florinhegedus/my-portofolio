@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}Work with Me{% endblock %}
+
+{% block content %}
+<h1>Work with Me</h1>
+<p>If you'd like to collaborate or have a project in mind, please leave a message below.</p>
+
+<form method="POST" action="{{ url_for('work_with_me') }}">
+    <label for="name">Name:</label><br>
+    <input type="text" id="name" name="name" required><br><br>
+    
+    <label for="email">Email:</label><br>
+    <input type="email" id="email" name="email" required><br><br>
+    
+    <label for="message">Message:</label><br>
+    <textarea id="message" name="message" rows="4" required></textarea><br><br>
+    
+    <input type="submit" value="Submit">
+</form>
+{% endblock %}
