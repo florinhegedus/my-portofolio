@@ -71,3 +71,8 @@ Delete the container.
 ```
 gcloud container images delete gcr.io/your-project-id/flask-app --force-delete-tags
 ```
+
+## Add a custom domain
+Go to gc network services, cloud DNS and create a zone.
+Go to cloud domains and create your custom domain. Change the DNS to cloud DNS, from the dropdown select the zone that you created before.
+In cloud run, go to manage custom domains and add your desired subdomain, copy the DNS to the table of DNSes in cloud DNS.

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}Messages{% endblock %}
+
+{% block content %}
+<h1>Submitted Messages</h1>
+<ul>
+    {% for message in messages %}
+        <li>
+            <strong>{{ message.name }}</strong> ({{ message.email }}): {{ message.message }}
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}
