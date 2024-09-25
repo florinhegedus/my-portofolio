@@ -1,27 +1,25 @@
+import os
 from flask import Flask, render_template, request, redirect, url_for
-from flask_sqlalchemy import SQLAlchemy
+from flask_mail import Mail, Message
+from dotenv import load_dotenv
+
+
+# Check if running inside a container
+in_container = os.getenv('IN_CONTAINER', 'False')  # Default to 'False' if not found
+if not in_container:
+    load_dotenv()
 
 app = Flask(__name__)
 
-# Set up the SQLite database
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///messages.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+# Configure Flask-Mail with SMTP settings (example uses Gmail)
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USERNAME'] = os.getenv("MAIL_USERNAME")
+app.config['MAIL_PASSWORD'] = os.getenv("MAIL_PASSWORD")
+app.config['MAIL_DEFAULT_SENDER'] = os.getenv("MAIL_USERNAME")
 
-db = SQLAlchemy(app)
-
-# Create a database model for storing form messages
-class Message(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False)
-    email = db.Column(db.String(100), nullable=False)
-    message = db.Column(db.Text, nullable=False)
-
-    def __repr__(self):
-        return f"<Message {self.name}>"
-
-# Create the database (only needs to be done once)
-with app.app_context():
-    db.create_all()
+mail = Mail(app)
 
 @app.route('/')
 def landing():
@@ -38,10 +36,14 @@ def work_with_me():
         email = request.form['email']
         message_text = request.form['message']
 
-        # Create a new message and save it to the database
-        new_message = Message(name=name, email=email, message=message_text)
-        db.session.add(new_message)
-        db.session.commit()
+        # Compose the email message
+        subject = f"my-portofolio: New message from {name} ({email})"
+        body = f"Name: {name}\nEmail: {email}\nMessage: {message_text}"
+
+        # Send email
+        msg = Message(subject, recipients=[app.config['MAIL_USERNAME']])
+        msg.body = body
+        mail.send(msg)
 
         return redirect(url_for('thank_you', name=name))
 

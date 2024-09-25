@@ -4,6 +4,7 @@ FROM python:3.10-slim
 # Set environment variables
 ENV PYTHONUNBUFFERED True
 ENV APP_HOME /app
+ENV IN_CONTAINER True
 
 # Set the working directory
 WORKDIR $APP_HOME
