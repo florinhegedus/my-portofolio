@@ -12,12 +12,12 @@ python app.py
 ## Containerize application
 Create the Dockerfile and build the image.
 ```
-docker build -t reziajutor .
+docker build -t flask-app .
 ```
 
 Test the container locally.
 ```
-docker run -p 8080:8080 reziajutor
+docker run -p 8080:8080 flask-app
 ```
 
 ## Upload image to Google Cloud
@@ -39,7 +39,7 @@ gcloud services enable run.googleapis.com
 
 Tag the docker image.
 ```
-docker tag reziajutor gcr.io/steam-link-435607-q6/reziajutor
+docker tag flask-app gcr.io/steam-link-435607-q6/flask-app
 ```
 
 Authenticate docker for access to gc.
@@ -49,13 +49,13 @@ gcloud auth configure-docker
 
 Push the image.
 ```
-docker push gcr.io/steam-link-435607-q6/reziajutor
+docker push gcr.io/steam-link-435607-q6/flask-app
 ```
 
 ## Deploy the app
 ```
-gcloud run deploy reziajutor \
-  --image gcr.io/steam-link-435607-q6/reziajutor \
+gcloud run deploy flask-app \
+  --image gcr.io/steam-link-435607-q6/flask-app \
   --platform managed \
   --region us-central1 \
   --allow-unauthenticated
@@ -64,12 +64,12 @@ gcloud run deploy reziajutor \
 ## How to stop the app
 Delete the service.
 ```
-gcloud run services delete reziajutor --platform managed --region us-central1
+gcloud run services delete flask-app --platform managed --region us-central1
 ```
 
 Delete the container.
 ```
-gcloud container images delete gcr.io/steam-link-435607-q6/reziajutor --force-delete-tags
+gcloud container images delete gcr.io/steam-link-435607-q6/flask-app --force-delete-tags
 ```
 
 ## Add a custom domain
