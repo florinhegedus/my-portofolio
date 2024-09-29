@@ -54,12 +54,15 @@ docker push gcr.io/steam-link-435607-q6/flask-app
 
 ## Deploy the app
 ```
-gcloud run deploy flask-app \
-  --image gcr.io/steam-link-435607-q6/flask-app \
-  --platform managed \
-  --region us-central1 \
-  --allow-unauthenticated
+gcloud run deploy flask-app --image gcr.io/steam-link-435607-q6/flask-app --platform managed --region us-central1 --allow-unauthenticated
 ```
+
+## Add secret
+You can add a secret from `Edit CICD` - `Container`. Then you should grant the service user permissions to access the secret:
+```
+gcloud secrets add-iam-policy-binding SECRET_YOU_WANT --member="serviceAccount:9826031314-compute@developer.gserviceaccount.com" --role="roles/secretmanager.secretAccessor"
+```
+
 
 ## How to stop the app
 Delete the service.
