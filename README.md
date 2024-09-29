@@ -54,11 +54,7 @@ docker push gcr.io/steam-link-435607-q6/flask-app
 
 ## Deploy the app
 ```
-gcloud run deploy flask-app \
-  --image gcr.io/steam-link-435607-q6/flask-app \
-  --platform managed \
-  --region us-central1 \
-  --allow-unauthenticated
+gcloud run deploy flask-app --image gcr.io/steam-link-435607-q6/flask-app --platform managed --region us-central1 --allow-unauthenticated
 ```
 
 ## Add secret
